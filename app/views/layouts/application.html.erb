@@ -12,22 +12,39 @@
     <link rel="search" type="application/opensearchdescription+xml" title="openSUSE Software" href="/search_software.xml" />
     <link href="https://software.opensuse.org/favicon.ico" rel="shortcut icon" />
 
+    <!-- Stylesheets -->
     <%= stylesheet_link_tag "/chameleon/dist/css/chameleon.css" %>
-    <%= stylesheet_link_tag "app" %>
+    <%= stylesheet_link_tag "application" %>
 
-    <%= javascript_include_tag "/chameleon/dist/js/chameleon.js" %>
-    <%= javascript_include_tag "application" %>
+    <% if @lang == "ar" %>
+      <style type="text/css">
+        body {direction:rtl}
+      </style>
+    <% end %>
 
     <%= yield :content_for_head %>
+  </head>
+  <body>
 
-    <script type="text/javascript">
-      /* <![CDATA[ */
-<%= yield :head_javascript %>
-  $(function() {
-<%= yield :ready_function %>
-  });
-  /* ]]> */
-    </script>
+    <%= render :partial => "layouts/navbar" %>
+
+    <% unless flash.blank? %>
+      <%= render(:partial => "layouts/flash", :object => flash) %>
+    <% end %>
+
+    <% unless @hide_search_box %>
+      <%= render :partial => 'search/find_form' %>
+    <% end %>
+
+    <div id="content">
+      <%= yield %>
+    </div>
+
+    <%= render :partial => "layouts/footer" %>
+
+    <!-- JavaScripts -->
+    <%= javascript_include_tag "/chameleon/dist/js/chameleon.js" %>
+    <%= javascript_include_tag "application" %>
 
     <!-- Piwik -->
     <script type="text/javascript">
@@ -49,48 +66,6 @@
       })();
     </script>
     <!-- End Piwik Code -->
-
-    <% if @lang == "ar" %>
-      <style type="text/css">
-        body {direction:rtl}
-      </style>
-    <% end %>
-    <style>
-      html, body {
-        min-height:100vh;
-      }
-      body {
-        display: flex;
-        flex-flow: column;
-      }
-      #content {
-        margin-top: auto !important;
-        margin-bottom: auto !important;
-      }
-    </style>
-
-  </head>
-  <body>
-
-    <% activenav ||= 'software' %>
-    <%= render :partial => "layouts/navbar", :locals => {:activenav => 'software' } %>
-
-    <% unless flash.blank? %>
-      <%= render(:partial => "layouts/flash", :object => flash) %>
-    <% end %>
-
-    <div id="content" class="container_12 content-wrapper">
-
-      <% unless @hide_search_box %>
-        <%= render :partial => 'search/find_form', :locals => { :baseproject => @baseproject } %>
-      <% end %>
-
-      <div id="search_result_container">
-        <%= yield %>
-      </div>
-    </div>
-
-    <%= render :partial => "layouts/footer" %>
 
   </body>
 </html>

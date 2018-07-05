@@ -153,7 +153,7 @@ class DownloadController < ApplicationController
   def render_page page_template
     @box_title = @page_title
     respond_to do |format|
-      format.html { render page_template, :layout => 'download' }
+      format.html { render page_template }
       format.iframe {
         response.headers.except! 'X-Frame-Options'
         render page_template, :layout => 'iframe.html'

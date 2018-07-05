@@ -2,22 +2,14 @@
 <html>
   <head>
     <%= yield :content_for_head %>
-    <%= stylesheet_link_tag "/chameleon/css/app.css" %>
-    <%= stylesheet_link_tag "app" %>
-    <%= javascript_include_tag "/chameleon/js/app.js" %>
-    <script type="text/javascript">
-     /* <![CDATA[ */
-    <%= yield :head_javascript %>
-    $(function() {
-      <%= yield :ready_function %>
-    });
-    /* ]]> */
-    </script>
-
+    <%= stylesheet_link_tag "/chameleon/dist/css/chameleon.css" %>
+    <%= stylesheet_link_tag "application" %>
   </head>
   <body>
 
     <%= yield %>
 
+    <%= javascript_include_tag "/chameleon/dist/js/chameleon.js" %>
+    <%= javascript_include_tag "application" %>
   </body>
 </html>

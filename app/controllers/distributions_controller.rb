@@ -1,9 +1,10 @@
 class DistributionsController < OBSController
+  before_action :set_active_nav
   before_action :set_releases_parameters, only: %i[index testing leap legacy]
 
   # GET /distributions
   def index
-    render layout: 'download'
+    render
   end
 
   # GET /distributions/leap
@@ -14,13 +15,13 @@ class DistributionsController < OBSController
       return
     end
     @version = @stable_version
-    render action: "leap-#{@stable_version}", layout: 'download'
+    render action: "leap-#{@stable_version}"
   end
 
   # GET /distributions/tumbleweed
   def tumbleweed
     @hide_search_box = true
-    render layout: 'download'
+    render
   end
 
   # GET /distributions/testing
@@ -32,7 +33,7 @@ class DistributionsController < OBSController
     end
     @version = @testing_version
     flash[:notice] = _('Help test the next version of openSUSE Leap!')
-    render action: "leap-#{@testing_version}", layout: 'download'
+    render action: "leap-#{@testing_version}"
   end
 
   # GET /distributions/legacy
@@ -44,6 +45,10 @@ class DistributionsController < OBSController
     end
     @version = @legacy_release
     flash.now[:notice] = _("There is a new version of openSUSE Leap <a href='/distributions/leap'>available</a>!")
-    render action: "leap-#{@legacy_release}", layout: 'download'
+    render action: "leap-#{@legacy_release}"
+  end
+
+  def set_active_nav
+    @active_nav = 'download'
   end
 end
